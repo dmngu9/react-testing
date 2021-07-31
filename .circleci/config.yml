@@ -2,7 +2,7 @@ version: 2.1
 executors:
   ci-executor:
     docker:
-      - image: node:14.17.3
+      - image: node:14.17.3-slim
 jobs:
   build:
     executor: ci-executor
