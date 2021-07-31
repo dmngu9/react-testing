@@ -1,0 +1,43 @@
+version: 2.1
+executors:
+  ci-executor:
+    docker:
+      - image: node:14.17.3
+jobs:
+  build:
+    executor: ci-executor
+    steps:
+      - checkout
+      - run:
+          name: install Yarn
+          command: npm install -g yarn
+      - restore_cache:
+          keys:
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-
+            - yarn-packages-v1-
+      - run:
+          name: install dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Test
+          command: yarn test
+      - run:
+          name: build
+          command: yarn prod
+      - store_artifacts:
+          path: dist
+          destination: dist
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+
+
+
+  
