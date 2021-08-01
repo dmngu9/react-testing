@@ -35,7 +35,6 @@ const App = (): React.ReactElement => {
         <p>Name: {user.name}</p>
         <p>Company: {user.company}</p>
       </ul>
-      <p>Hi</p>
       <button type="button" onClick={onClick}>Show Fun Fact</button>
       {showFunFact && <p>Im from Sydney</p>}
     </>
