@@ -39,7 +39,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: npm install -g gh-pages 
+      - run: |
+          npm install -g gh-pages
+          git --version 
       - run:
           name: deploy
           command: gh-pages -b master -d dist
