@@ -38,7 +38,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: ls
+      - run: npm install -g gh-pages 
+      - run:
+          name: deploy
+          command: gh-pages -b master -d dist
 workflows:
   version: 2
   build-deploy:
