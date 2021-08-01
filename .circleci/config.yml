@@ -42,7 +42,7 @@ jobs:
       - run: |
           apt-get update
           apt-get install -y git
-          git config --global user.email "minh@example.com"
+          git config --global user.email "minh.d.nguyen2211@gmail.com"
           git config --global user.name "dmngu9"
           npm install -g gh-pages
       - run:
