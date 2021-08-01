@@ -36,9 +36,9 @@ jobs:
   deploy:
     executor: ci-executor
     steps:
+      - checkout
       - attach_workspace:
           at: .
-      - checkout
       - run: npm install -g gh-pages 
       - run:
           name: deploy
