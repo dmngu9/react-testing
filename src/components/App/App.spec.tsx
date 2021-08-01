@@ -41,7 +41,7 @@ describe("App", () => {
     const { queryByText, queryByRole } = render(<App />);
 
     await waitFor(() => {
-      expect(queryByText(/Name: Mnh/i)).toBeInTheDocument();
+      expect(queryByText(/Name: Minh/i)).toBeInTheDocument();
       expect(queryByText(/Company: REA/i)).toBeInTheDocument();
       expect(queryByRole('button')).toBeInTheDocument()
     });

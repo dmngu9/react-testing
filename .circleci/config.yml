@@ -29,11 +29,27 @@ jobs:
       - store_artifacts:
           path: dist
           destination: dist
+      - persist_to_workspace:
+          root: .
+          paths: 
+            - dist/*
+  deploy:
+    executor: ci-executor
+    steps:
+      - attach_workspace:
+          at: .
+      - run: yarn deploy
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
 
 
 
