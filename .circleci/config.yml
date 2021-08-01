@@ -1,0 +1,68 @@
+version: 2.1
+executors:
+  ci-executor:
+    docker:
+      - image: node:14.17.3-slim
+jobs:
+  build:
+    executor: ci-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-
+            - yarn-packages-v1-
+      - run:
+          name: install dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Test
+          command: yarn test
+      - run:
+          name: build
+          command: yarn prod
+      - store_artifacts:
+          path: dist
+          destination: dist
+      - persist_to_workspace:
+          root: .
+          paths: 
+            - dist/*
+  deploy:
+    executor: ci-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: |
+          apt-get update
+          apt-get install -y git
+          git config --global user.email "minh.d.nguyen2211@gmail.com"
+          git config --global user.name "dmngu9"
+          npm install -g gh-pages
+      - add_ssh_keys:
+          fingerprints:
+            - "dd:80:69:25:e8:66:20:9f:44:d2:01:8e:50:4f:43:5a"
+      - run:
+          name: deploy
+          command: gh-pages -b master -d dist
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
+
+
+  
