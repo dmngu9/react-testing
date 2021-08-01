@@ -40,7 +40,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          apk add git
+          apt install git-all
           npm install -g gh-pages
       - run:
           name: deploy
