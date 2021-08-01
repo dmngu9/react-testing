@@ -40,8 +40,8 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
+          apk add git
           npm install -g gh-pages
-          git --version 
       - run:
           name: deploy
           command: gh-pages -b master -d dist
